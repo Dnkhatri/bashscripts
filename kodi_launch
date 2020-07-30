@@ -1,0 +1,10 @@
+#!/bin/bash
+DISPLAY=:0.0
+echo autospawn=no > $HOME/.config/pulse/client.conf      # prevent autospawn
+systemctl --user mask pulseaudio.socket      # stop it listening on sockets
+systemctl --user stop pulseaudio             # stop the daemon
+killall pulseaudio                           # stop any spawned threads
+kodi                                         # launch Kodi
+systemctl --user unmask pulseaudio.socket    # start listening
+systemctl --user start pulseaudio            # start the daemon
+rm $HOME/.config/pulse/client.conf           # allow daemon to spawn on-demand
